@@ -1,0 +1,22 @@
+version: '2'
+services:
+    apache-php:
+        build: ./Dockerfile.apache-php
+        ports: 
+            - 8000:80
+        volumes:
+            - ../www/:/var/www/html
+            - ../docker-php.conf:/etc/apache2/conf-available/docker-php.conf
+    mariadb:
+        image: mariadb:10.1
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_ROOT_PASSWORD=
+            - MYSQL_DATABASE=phptherightway_checklist
+            - MYSQL_USER=Bob
+            - MYSQL_PASSWORD=Bob
+            - DB_HOST=mysql
+        links: 
+            - apache-php
